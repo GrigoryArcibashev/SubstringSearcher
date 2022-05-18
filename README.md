@@ -1,0 +1,2 @@
+# SubstringSearcher
+easy points
