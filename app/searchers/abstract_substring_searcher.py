@@ -1,3 +1,4 @@
 class AbstractSubstringSearcher:
-    def search(self, string: str, substring: str) -> list[int]:
+    @staticmethod
+    def search(string: str, substring: str) -> list[int]:
         pass
