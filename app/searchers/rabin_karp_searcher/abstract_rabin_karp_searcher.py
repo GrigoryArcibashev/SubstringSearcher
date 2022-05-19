@@ -1,13 +1,14 @@
-import math
 from abc import abstractmethod
 
 from memory_profiler import profile
 
 from app.searchers.abstract_substring_searcher import AbstractSubstringSearcher
+from app.stopwatch_decorator import stopwatch
 
 
 class AbstractRabinKarpSearcher(AbstractSubstringSearcher):
     @profile
+    @stopwatch()
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         str_hash = self._get_hash(
@@ -46,38 +47,3 @@ class AbstractRabinKarpSearcher(AbstractSubstringSearcher):
             if string[start_index + shift] != substring[shift]:
                 return False
         return True
-
-
-class RabinKarpWithPolynomialHashSearcher(AbstractRabinKarpSearcher):
-
-    def _get_hash(self, string: str, max_power: int) -> int:
-        hash = 0
-        for i in range(max_power):
-            hash += ord(string[i]) * math.pow(2, max_power - i - 1)
-        return hash
-
-    def _get_updated_hash(
-            self,
-            hash: int,
-            string: str,
-            index_of_first_char: int,
-            max_power: int):
-        hash -= ord(string[index_of_first_char]) * math.pow(2, max_power - 1)
-        return hash * 2 + ord(string[index_of_first_char + max_power])
-
-
-class RabinKarpWithSquareHashSearcher(AbstractRabinKarpSearcher):
-    def _get_hash(self, string: str, max_power: int) -> int:
-        hash = 0
-        for i in range(max_power):
-            hash += math.pow(ord(string[i]), 2)
-        return hash
-
-    def _get_updated_hash(
-            self,
-            hash: int,
-            string: str,
-            index_of_first_char: int,
-            max_power: int):
-        hash += math.pow(ord(string[index_of_first_char + max_power]), 2)
-        return hash - math.pow(ord(string[index_of_first_char]), 2)

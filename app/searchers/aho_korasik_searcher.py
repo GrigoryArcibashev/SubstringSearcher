@@ -3,6 +3,7 @@ from typing import Optional
 from memory_profiler import profile
 
 from app.searchers.abstract_substring_searcher import AbstractSubstringSearcher
+from app.stopwatch_decorator import stopwatch
 
 
 def num(char: str) -> int:
@@ -11,6 +12,7 @@ def num(char: str) -> int:
 
 class AhoKorasikSearcher(AbstractSubstringSearcher):
     @profile
+    @stopwatch()
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         trie = Trie()

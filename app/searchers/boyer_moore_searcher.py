@@ -1,10 +1,12 @@
 from memory_profiler import profile
 
 from app.searchers.abstract_substring_searcher import AbstractSubstringSearcher
+from app.stopwatch_decorator import stopwatch
 
 
 class BoyerMooreSearcher(AbstractSubstringSearcher):
     @profile
+    @stopwatch()
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         str_len = len(string)
