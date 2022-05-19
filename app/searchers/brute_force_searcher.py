@@ -5,8 +5,8 @@ from app.stopwatch_decorator import stopwatch
 
 
 class BruteForce(AbstractSubstringSearcher):
-    @profile
     @stopwatch()
+    @profile
     def search(self, string: str, substring: str) -> list[int]:
         if len(string) < len(substring):
             return []

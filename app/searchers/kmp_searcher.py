@@ -5,8 +5,8 @@ from app.stopwatch_decorator import stopwatch
 
 
 class KMPSearcher(AbstractSubstringSearcher):
-    @profile
     @stopwatch()
+    @profile
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         substring_borders = KMPSearcher._find_borders(substring)

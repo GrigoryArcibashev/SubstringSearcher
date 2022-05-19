@@ -5,8 +5,8 @@ from app.stopwatch_decorator import stopwatch
 
 
 class BoyerMooreSearcher(AbstractSubstringSearcher):
-    @profile
     @stopwatch()
+    @profile
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         str_len = len(string)

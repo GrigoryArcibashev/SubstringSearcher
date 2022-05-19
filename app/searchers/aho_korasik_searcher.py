@@ -11,8 +11,8 @@ def num(char: str) -> int:
 
 
 class AhoKorasikSearcher(AbstractSubstringSearcher):
-    @profile
     @stopwatch()
+    @profile
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         trie = Trie()
