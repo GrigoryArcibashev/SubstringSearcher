@@ -8,8 +8,7 @@ def num(char: str) -> int:
 
 
 class AhoKorasikSearcher(AbstractSubstringSearcher):
-    @staticmethod
-    def search(string: str, substring: str) -> list[int]:
+    def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         trie = Trie()
         trie.add(substring)

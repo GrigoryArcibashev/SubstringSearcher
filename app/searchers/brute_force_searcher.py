@@ -2,8 +2,7 @@ from abstract_substring_searcher import AbstractSubstringSearcher
 
 
 class BruteForce(AbstractSubstringSearcher):
-    @staticmethod
-    def search(string: str, substring: str) -> list[int]:
+    def search(self, string: str, substring: str) -> list[int]:
         if len(string) < len(substring):
             return []
         indexes = []
