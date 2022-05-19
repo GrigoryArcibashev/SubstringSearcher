@@ -1,7 +1,10 @@
-from abstract_substring_searcher import AbstractSubstringSearcher
+from memory_profiler import profile
+
+from app.searchers.abstract_substring_searcher import AbstractSubstringSearcher
 
 
 class BoyerMooreSearcher(AbstractSubstringSearcher):
+    @profile
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         str_len = len(string)

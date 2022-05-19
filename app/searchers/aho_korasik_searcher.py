@@ -1,6 +1,8 @@
 from typing import Optional
 
-from abstract_substring_searcher import AbstractSubstringSearcher
+from memory_profiler import profile
+
+from app.searchers.abstract_substring_searcher import AbstractSubstringSearcher
 
 
 def num(char: str) -> int:
@@ -8,6 +10,7 @@ def num(char: str) -> int:
 
 
 class AhoKorasikSearcher(AbstractSubstringSearcher):
+    @profile
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         trie = Trie()

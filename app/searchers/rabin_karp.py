@@ -1,10 +1,13 @@
 import math
 from abc import abstractmethod
 
-from abstract_substring_searcher import AbstractSubstringSearcher
+from memory_profiler import profile
+
+from app.searchers.abstract_substring_searcher import AbstractSubstringSearcher
 
 
 class AbstractRabinKarpSearcher(AbstractSubstringSearcher):
+    @profile
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         str_hash = self._get_hash(
@@ -37,7 +40,8 @@ class AbstractRabinKarpSearcher(AbstractSubstringSearcher):
             max_power: int) -> int:
         pass
 
-    def _compare(self, string: str, substring: str, start_index: int) -> bool:
+    @staticmethod
+    def _compare(string: str, substring: str, start_index: int) -> bool:
         for shift in range(len(substring)):
             if string[start_index + shift] != substring[shift]:
                 return False
