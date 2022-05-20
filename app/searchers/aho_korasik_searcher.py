@@ -55,9 +55,12 @@ class Trie:
                 self._vertices.append(
                         Vertex(
                                 vertex,
-                                string[i]))
+                                string[i]
+                        )
+                )
                 vertex.next[num(string[i])] = self.last
             vertex = vertex.next[num(string[i])]
+
         vertex.is_terminal = True
 
     def get_link(self, vertex: Vertex) -> Vertex:

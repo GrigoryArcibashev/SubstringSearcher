@@ -11,7 +11,7 @@ class BoyerMooreSearcher(AbstractSubstringSearcher):
         indexes = []
         str_len = len(string)
         substr_len = len(substring)
-        badChar = self.badCharHeuristic(substring, substr_len)
+        badChar = self._bad_char_heuristic(substring, substr_len)
         shift = 0
         while shift <= str_len - substr_len:
             j = substr_len - 1
@@ -30,7 +30,7 @@ class BoyerMooreSearcher(AbstractSubstringSearcher):
         return indexes
 
     @staticmethod
-    def badCharHeuristic(string: str, size: int):
+    def _bad_char_heuristic(string: str, size: int):
         badChar = dict()
         for i in range(size):
             badChar[ord(string[i])] = i

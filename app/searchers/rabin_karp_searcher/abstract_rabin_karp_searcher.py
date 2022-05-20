@@ -7,8 +7,8 @@ from app.stopwatch_decorator import stopwatch
 
 
 class AbstractRabinKarpSearcher(AbstractSubstringSearcher):
-    @profile
     @stopwatch()
+    @profile
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         str_hash = self._get_hash(
