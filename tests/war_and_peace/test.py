@@ -6,7 +6,6 @@ from app.searchers.rabin_karp_searcher.rabin_karp_polynomial_hash import \
     RabinKarpWithPolynomialHashSearcher
 from app.searchers.rabin_karp_searcher.rabin_karp_square_hash import \
     RabinKarpWithSquareHashSearcher
-from app.searchers.z_asearcher import ZSearcher
 from tests.reader import read_file
 
 
@@ -32,4 +31,3 @@ class Tests:
         BruteForce().search(self._string, sub_string)
         BoyerMooreSearcher().search(self._string, sub_string)
         AhoKorasikSearcher().search(self._string, sub_string)
-        ZSearcher().search(self._string, sub_string)
