@@ -8,8 +8,8 @@ def stopwatch(head_message: str = None):
             result = func(*args, **kwargs)
             finish = time.time()
             if head_message is not None:
-                print(f'{head_message}: ', end='')
-            print(f'working time is {finish - start} seconds')
+                print(f"{head_message}: ", end="")
+            print(f"working time is {finish - start} seconds")
 
             return result
 

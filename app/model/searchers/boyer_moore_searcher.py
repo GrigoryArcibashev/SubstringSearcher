@@ -1,17 +1,14 @@
-from memory_profiler import profile
-
 from app.model.searchers.abstract_substring_searcher import AbstractSubstringSearcher
-from app.model.utils.stopwatch_decorator import stopwatch
 
 
 class BoyerMooreSearcher(AbstractSubstringSearcher):
-    @stopwatch()
-    @profile
+    "Класс для алгоритма Бойера-Мура"
+
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []
         str_len = len(string)
         substr_len = len(substring)
-        badChar = self._bad_char_heuristic(substring, substr_len)
+        badChar = self._bad_char_heuristic(substring)
         shift = 0
         while shift <= str_len - substr_len:
             j = substr_len - 1
@@ -21,8 +18,8 @@ class BoyerMooreSearcher(AbstractSubstringSearcher):
                 indexes.append(shift)
                 if shift + substr_len < str_len:
                     shift += substr_len - badChar.get(
-                            ord(string[shift + substr_len]),
-                            -1)
+                        ord(string[shift + substr_len]), -1
+                    )
                 else:
                     shift += 1
             else:
@@ -30,8 +27,9 @@ class BoyerMooreSearcher(AbstractSubstringSearcher):
         return indexes
 
     @staticmethod
-    def _bad_char_heuristic(string: str, size: int):
+    def _bad_char_heuristic(string: str) -> dict[int, int]:
+        """Вычисляет эвристику плохого символа для строки"""
         badChar = dict()
-        for i in range(size):
+        for i in range(len(string)):
             badChar[ord(string[i])] = i
         return badChar

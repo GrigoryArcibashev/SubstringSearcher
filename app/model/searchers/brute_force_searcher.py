@@ -1,12 +1,9 @@
-from memory_profiler import profile
-
 from app.model.searchers.abstract_substring_searcher import AbstractSubstringSearcher
-from app.model.utils.stopwatch_decorator import stopwatch
 
 
-class BruteForce(AbstractSubstringSearcher):
-    @stopwatch()
-    @profile
+class BruteForceSearcher(AbstractSubstringSearcher):
+    "Класс для алгоритма Брутфорс"
+
     def search(self, string: str, substring: str) -> list[int]:
         if len(string) < len(substring):
             return []
