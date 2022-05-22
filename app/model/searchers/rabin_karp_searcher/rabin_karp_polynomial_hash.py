@@ -1,6 +1,6 @@
 import math
 
-from app.searchers.rabin_karp_searcher.abstract_rabin_karp_searcher import \
+from app.model.searchers.rabin_karp_searcher.abstract_rabin_karp_searcher import \
     AbstractRabinKarpSearcher
 
 

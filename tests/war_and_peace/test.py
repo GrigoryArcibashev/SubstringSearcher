@@ -1,12 +1,12 @@
-from app.searchers.aho_korasik_searcher import AhoKorasikSearcher
-from app.searchers.boyer_moore_searcher import BoyerMooreSearcher
-from app.searchers.brute_force_searcher import BruteForce
-from app.searchers.kmp_searcher import KMPSearcher
-from app.searchers.rabin_karp_searcher.rabin_karp_polynomial_hash import \
+from app.model.searchers.aho_korasik_searcher import AhoKorasikSearcher
+from app.model.searchers.boyer_moore_searcher import BoyerMooreSearcher
+from app.model.searchers.brute_force_searcher import BruteForce
+from app.model.searchers.kmp_searcher import KMPSearcher
+from app.model.searchers.rabin_karp_searcher.rabin_karp_polynomial_hash import \
     RabinKarpWithPolynomialHashSearcher
-from app.searchers.rabin_karp_searcher.rabin_karp_square_hash import \
+from app.model.searchers.rabin_karp_searcher.rabin_karp_square_hash import \
     RabinKarpWithSquareHashSearcher
-from tests.reader import read_file
+from app.model.utils.file_reader import read_file
 
 
 class Tests:

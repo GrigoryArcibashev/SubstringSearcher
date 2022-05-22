@@ -1,7 +1,7 @@
 from memory_profiler import profile
 
-from app.searchers.abstract_substring_searcher import AbstractSubstringSearcher
-from app.stopwatch_decorator import stopwatch
+from app.model.searchers.abstract_substring_searcher import AbstractSubstringSearcher
+from app.model.utils.stopwatch_decorator import stopwatch
 
 
 class BoyerMooreSearcher(AbstractSubstringSearcher):
