@@ -15,6 +15,7 @@ class MemoryProfiler:
         tracemalloc.reset_peak()
         tracemalloc.stop()
 
-    @property
-    def peak_expended_memory_in_bytes(self) -> int:
+    def get_peak_expended_memory_in_bytes(self) -> int:
+        if self._peak is None:
+            raise Exception('Profiler has not started yet')
         return self._peak

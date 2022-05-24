@@ -22,12 +22,15 @@ from app.model.searchers.boyer_moore_searcher import BoyerMooreSearcher
 from app.model.searchers.brute_force_searcher import BruteForceSearcher
 from app.model.searchers.kmp_searcher import KMPSearcher
 from app.model.searchers.rabin_karp_searcher.rabin_karp_polynomial_hash import (
+    RB,
     RabinKarpWithPolynomialHashSearcher,
 )
 from app.model.searchers.rabin_karp_searcher.rabin_karp_square_hash import (
     RabinKarpWithSquareHashSearcher,
 )
 from app.model.utils.file_reader import read_file
+from app.model.utils.memory_profiler import MemoryProfiler
+from app.model.utils.stopwatch import Stopwatch
 
 
 class Window(QMainWindow):
@@ -45,6 +48,8 @@ class Window(QMainWindow):
         self._init_find_button()
         self._init_high_lighter()
 
+        # self._text_viewer.setText(read_file("text.txt"))
+
     def _init_high_lighter(self) -> None:
         """Инициализирует подсветчика текста"""
         self._high_lighter = HighLighter(self._text_viewer.document())
@@ -60,6 +65,7 @@ class Window(QMainWindow):
         searchers["Rabin Karp (Square Hash)"] = RabinKarpWithSquareHashSearcher()
         searchers["Boyer Moore"] = BoyerMooreSearcher()
         searchers["Aho Korasik"] = AhoKorasikSearcher()
+        searchers["RB"] = RB()
         self._searchers_by_name: dict[str, AbstractSubstringSearcher] = searchers
 
     def _init_window(self) -> None:
@@ -120,7 +126,7 @@ class Window(QMainWindow):
         size = QRect(
             self._size.width() // 2,
             self._size.height() // 1.5 + 50,
-            self._size.width() // 2.5,
+            self._size.width() // 2,
             30,
         )
         label.setGeometry(size)
@@ -133,7 +139,7 @@ class Window(QMainWindow):
         size = QRect(
             self._size.width() // 2,
             self._size.height() // 1.5 + 90,
-            self._size.width() // 2.5,
+            self._size.width() // 2,
             30,
         )
         label.setGeometry(size)
@@ -181,7 +187,7 @@ class Window(QMainWindow):
     @pyqtSlot()
     def _action_push_find_button(self) -> None:
         """Запускает поиск указанной строки в тексте, подсвечивая найденные вхождения"""
-        text = self._text_viewer.toPlainText()
+        string = self._text_viewer.toPlainText()
         substring = self._substring_input.text()
         searcher_name = self._combo_of_searchers.itemText(
             self._combo_of_searchers.currentIndex()
@@ -189,9 +195,43 @@ class Window(QMainWindow):
         searcher = self._searchers_by_name[searcher_name]
         length = len(substring)
         indexes = list(
-            map(lambda index: (index, length), searcher.search(text, substring))
+            map(
+                lambda index: (index, length),
+                self._run_searcher(searcher, string, substring),
+            )
         )
         self._high_lighter.highlight_found_occurrences(indexes)
+
+    def _run_searcher(
+        self, searcher: AbstractSubstringSearcher, string: str, substring: str
+    ) -> list[int]:
+        """
+        Запускает поисковик подстроки в строке,
+        отображая информацию о затратах времени и памяти
+        :return: список индексов в строке string, где начинается подстрока substring
+        """
+        stopwatch = Stopwatch()
+        memory_profiler = MemoryProfiler()
+        stopwatch.start()
+        with memory_profiler.profile():
+            indexes = searcher.search(string, substring)
+        stopwatch.stop()
+        self._display_performance_information(stopwatch, memory_profiler)
+        return indexes
+
+    def _display_performance_information(
+        self, stopwatch: Stopwatch, memory_profiler: MemoryProfiler
+    ) -> None:
+        """
+        Отображает информацию о затратах времени и памяти
+
+        :param stopwatch: секундомер (время работы)
+        :param memory_profiler: профайлер памяти (максимальное потребление памяти)
+        """
+        time = round(stopwatch.get_time_in_seconds(), 3)
+        memory = round(memory_profiler.get_peak_expended_memory_in_bytes() / 1024, 3)
+        self._time_label.setText(f"Время работы: {time} секунд")
+        self._memory_label.setText(f"Максимальное потребление памяти: {memory} KB")
 
 
 class BlockState(Enum):
@@ -220,17 +260,21 @@ class HighLighter(QSyntaxHighlighter):
                 self._current_index = self._indexes.popleft()
             start = self._current_index[0] - self._cursor
             count = self._current_index[1]
-            if block_len < start:
+            if block_len <= start:
                 self._cursor += block_len + 1
                 self._state = BlockState.PREV_BLOCK_IS_NOT_PROCESSED
                 return
             start = max(0, start)
-            if block_len - start < count:
+            if block_len - start < count - self._count_of_highlighted_symbols:
                 self.setFormat(start, block_len - start, self._format)
+                self._count_of_highlighted_symbols += block_len - start + 1
                 self._cursor += block_len + 1
                 self._state = BlockState.PREV_BLOCK_IS_NOT_PROCESSED
                 return
-            self.setFormat(start, count, self._format)
+            self.setFormat(
+                start, count - self._count_of_highlighted_symbols, self._format
+            )
+            self._count_of_highlighted_symbols = 0
             self._state = BlockState.PREV_BLOCK_IS_PROCESSED
 
     def highlight_found_occurrences(self, indexes: list[tuple[int, int]]) -> None:
@@ -242,7 +286,7 @@ class HighLighter(QSyntaxHighlighter):
         self._reset()
         for ind in indexes:
             self._indexes.append(ind)
-        self._high_lighter.rehighlight()
+        self.rehighlight()
 
     def _reset(self) -> None:
         """Сбрасывает все настройки"""
@@ -250,3 +294,4 @@ class HighLighter(QSyntaxHighlighter):
         self._indexes: deque[tuple[int, int]] = deque()
         self._current_index: Optional[tuple[int, int]] = None
         self._cursor: int = 0
+        self._count_of_highlighted_symbols: int = 0
