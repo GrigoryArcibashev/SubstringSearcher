@@ -22,7 +22,6 @@ from app.model.searchers.boyer_moore_searcher import BoyerMooreSearcher
 from app.model.searchers.brute_force_searcher import BruteForceSearcher
 from app.model.searchers.kmp_searcher import KMPSearcher
 from app.model.searchers.rabin_karp_searcher.rabin_karp_polynomial_hash import (
-    RB,
     RabinKarpWithPolynomialHashSearcher,
 )
 from app.model.searchers.rabin_karp_searcher.rabin_karp_square_hash import (
@@ -48,7 +47,7 @@ class Window(QMainWindow):
         self._init_find_button()
         self._init_high_lighter()
 
-        # self._text_viewer.setText(read_file("text.txt"))
+        self._text_viewer.setText(read_file("text.txt"))
 
     def _init_high_lighter(self) -> None:
         """Инициализирует подсветчика текста"""
@@ -65,7 +64,6 @@ class Window(QMainWindow):
         searchers["Rabin Karp (Square Hash)"] = RabinKarpWithSquareHashSearcher()
         searchers["Boyer Moore"] = BoyerMooreSearcher()
         searchers["Aho Korasik"] = AhoKorasikSearcher()
-        searchers["RB"] = RB()
         self._searchers_by_name: dict[str, AbstractSubstringSearcher] = searchers
 
     def _init_window(self) -> None:

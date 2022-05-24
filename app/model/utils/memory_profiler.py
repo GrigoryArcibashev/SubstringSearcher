@@ -17,5 +17,5 @@ class MemoryProfiler:
 
     def get_peak_expended_memory_in_bytes(self) -> int:
         if self._peak is None:
-            raise Exception('Profiler has not started yet')
+            raise Exception("Profiler has not started yet")
         return self._peak
