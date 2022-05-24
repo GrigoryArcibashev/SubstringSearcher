@@ -2,7 +2,7 @@ from app.model.searchers.abstract_substring_searcher import AbstractSubstringSea
 
 
 class KMPSearcher(AbstractSubstringSearcher):
-    "Класс для алгоритма Кнута — Морриса — Пратта"
+    """Класс для алгоритма Кнута — Морриса — Пратта"""
 
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []

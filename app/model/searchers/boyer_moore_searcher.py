@@ -2,7 +2,7 @@ from app.model.searchers.abstract_substring_searcher import AbstractSubstringSea
 
 
 class BoyerMooreSearcher(AbstractSubstringSearcher):
-    "Класс для алгоритма Бойера-Мура"
+    """Класс для алгоритма Бойера-Мура"""
 
     def search(self, string: str, substring: str) -> list[int]:
         indexes = []

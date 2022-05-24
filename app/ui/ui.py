@@ -47,8 +47,6 @@ class Window(QMainWindow):
         self._init_find_button()
         self._init_high_lighter()
 
-        self._text_viewer.setText(read_file("text.txt"))
-
     def _init_high_lighter(self) -> None:
         """Инициализирует подсветчика текста"""
         self._high_lighter = HighLighter(self._text_viewer.document())

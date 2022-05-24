@@ -2,7 +2,7 @@ from app.model.searchers.abstract_substring_searcher import AbstractSubstringSea
 
 
 class BruteForceSearcher(AbstractSubstringSearcher):
-    "Класс для алгоритма Брутфорс"
+    """Класс для алгоритма Брутфорс"""
 
     def search(self, string: str, substring: str) -> list[int]:
         if len(string) < len(substring):
