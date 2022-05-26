@@ -10,16 +10,20 @@ class RabinKarpWithSquareHashSearcher(AbstractSubstringSearcher):
         self._Q: int = 1046527
 
     def search(self, string: str, substring: str) -> list[int]:
+        str_len = len(string)
+        substr_len = len(substring)
+        if str_len == 0 or substr_len == 0 or str_len < substr_len:
+            return []
         indexes = []
-        str_hash = self._hash(string, len(substring))
-        substr_hash = self._hash(substring, len(substring))
-        count_of_comparers = len(string) - len(substring) + 1
+        str_hash = self._hash(string, substr_len)
+        substr_hash = self._hash(substring, substr_len)
+        count_of_comparers = str_len - substr_len + 1
         for i in range(count_of_comparers):
             if str_hash == substr_hash:
                 if self._compare(string, substring, i):
                     indexes.append(i)
             if i < count_of_comparers - 1:
-                str_hash = self._get_updated_hash(str_hash, string, i, len(substring))
+                str_hash = self._get_updated_hash(str_hash, string, i, substr_len)
         return indexes
 
     def _hash(self, string: str, length: int) -> int:

@@ -5,17 +5,21 @@ class KMPSearcher(AbstractSubstringSearcher):
     """Класс для алгоритма Кнута — Морриса — Пратта"""
 
     def search(self, string: str, substring: str) -> list[int]:
+        str_len = len(string)
+        substr_len = len(substring)
+        if str_len == 0 or substr_len == 0 or str_len < substr_len:
+            return []
         indexes = []
         substring_borders = KMPSearcher._find_borders(substring)
         compare_index = 0
-        for i in range(len(string)):
+        for i in range(str_len):
             while compare_index and string[i] != substring[compare_index]:
                 compare_index = substring_borders[compare_index - 1]
             if string[i] == substring[compare_index]:
                 compare_index += 1
-            if compare_index == len(substring):
+            if compare_index == substr_len:
                 indexes.append(i - compare_index + 1)
-                compare_index = substring_borders[len(substring) - 1]
+                compare_index = substring_borders[substr_len - 1]
         return indexes
 
     @staticmethod

@@ -5,9 +5,11 @@ class BoyerMooreSearcher(AbstractSubstringSearcher):
     """Класс для алгоритма Бойера-Мура"""
 
     def search(self, string: str, substring: str) -> list[int]:
-        indexes = []
         str_len = len(string)
         substr_len = len(substring)
+        if str_len == 0 or substr_len == 0 or str_len < substr_len:
+            return []
+        indexes = []
         badChar = self._bad_char_heuristic(substring)
         shift = 0
         while shift <= str_len - substr_len:

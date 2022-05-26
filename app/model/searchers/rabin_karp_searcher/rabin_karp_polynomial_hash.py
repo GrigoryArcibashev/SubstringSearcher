@@ -9,14 +9,16 @@ class RabinKarpWithPolynomialHashSearcher(AbstractSubstringSearcher):
         self._R: int = 1200
 
     def search(self, string: str, substring: str) -> list[int]:
-        indexes = []
         N = len(string)
         M = len(substring)
+        if N == 0 or M == 0 or N < M:
+            return []
+        indexes = []
         str_hash = self._hash(string, M)
         substr_hash = self._hash(substring, M)
         if str_hash == substr_hash:
             indexes.append(0)
-        RM = self._calculate_RM(len(substring))
+        RM = self._calculate_RM(M)
         for i in range(M, N):
             str_hash = (
                 str_hash + self._Q - RM * ord(string[i - M]) % self._Q

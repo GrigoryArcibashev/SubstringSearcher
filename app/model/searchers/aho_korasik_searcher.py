@@ -7,14 +7,18 @@ class AhoKorasikSearcher(AbstractSubstringSearcher):
     """Класс для алгоритма Ахо-Корасика"""
 
     def search(self, string: str, substring: str) -> list[int]:
+        str_len = len(string)
+        substr_len = len(substring)
+        if str_len == 0 or substr_len == 0 or str_len < substr_len:
+            return []
         indexes = []
         bohr = Bohr()
         bohr.add(substring)
         vertex = bohr.root
-        for i in range(len(string)):
+        for i in range(str_len):
             vertex = bohr.go(vertex, string[i])
             if vertex.is_terminal:
-                indexes.append(i - len(substring) + 1)
+                indexes.append(i - substr_len + 1)
         return indexes
 
 
