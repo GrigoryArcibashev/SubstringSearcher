@@ -23,7 +23,15 @@ class TestsBoundaryCases:
             kmp_searcher,
         ],
     )
-    def test__empty_string_and_substring(self, searcher: AbstractSubstringSearcher):
+    def test__empty_string_and_substring(
+        self, searcher: AbstractSubstringSearcher
+    ) -> None:
+        """
+        Пустые строка и подстрока
+
+        :param searcher: алгоритм поиска
+        :return: None
+        """
         actual = searcher.search("", "")
 
         assert actual == []
@@ -41,7 +49,13 @@ class TestsBoundaryCases:
     )
     def test__empty_string_and_non_empty_substring(
         self, searcher: AbstractSubstringSearcher
-    ):
+    ) -> None:
+        """
+        Пустая строка и не пустая подстрока
+
+        :param searcher: алгоритм поиска
+        :return: None
+        """
         actual = searcher.search("", "substring")
 
         assert actual == []
@@ -59,7 +73,13 @@ class TestsBoundaryCases:
     )
     def test__non_empty_string_and_empty_substring(
         self, searcher: AbstractSubstringSearcher
-    ):
+    ) -> None:
+        """
+        Не пустая строка и пустая подстрока
+
+        :param searcher: алгоритм поиска
+        :return: None
+        """
         actual = searcher.search("string", "")
 
         assert actual == []
@@ -86,7 +106,15 @@ class TestsBoundaryCases:
         string: str,
         substring: str,
         searcher: AbstractSubstringSearcher,
-    ):
+    ) -> None:
+        """
+        Длина искомой подстроки больше, чем длина строки
+
+        :param string: строка
+        :param substring: подстрока
+        :param searcher: алгоритм поиска
+        :return: None
+        """
         actual = searcher.search(string, substring)
 
         assert actual == []

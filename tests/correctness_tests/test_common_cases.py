@@ -1,16 +1,6 @@
 import pytest
 
 from app.model.searchers.abstract_substring_searcher import AbstractSubstringSearcher
-from app.model.searchers.aho_korasik_searcher import AhoKorasikSearcher
-from app.model.searchers.boyer_moore_searcher import BoyerMooreSearcher
-from app.model.searchers.brute_force_searcher import BruteForceSearcher
-from app.model.searchers.kmp_searcher import KMPSearcher
-from app.model.searchers.rabin_karp_searcher.rabin_karp_polynomial_hash import (
-    RabinKarpWithPolynomialHashSearcher,
-)
-from app.model.searchers.rabin_karp_searcher.rabin_karp_square_hash import (
-    RabinKarpWithSquareHashSearcher,
-)
 from tests import (
     aho_korasik_searcher,
     boyer_moore_searcher,
@@ -23,17 +13,6 @@ from tests import (
 
 
 class TestsCommonCases:
-    @staticmethod
-    def _check(
-        string: str,
-        substring: str,
-        searcher: AbstractSubstringSearcher,
-        expected: list[int],
-    ):
-        actual = searcher.search(string, substring)
-
-        assert actual == expected
-
     @pytest.mark.parametrize(
         "string, substring, searcher, expected",
         [
@@ -57,7 +36,16 @@ class TestsCommonCases:
         substring: str,
         searcher: AbstractSubstringSearcher,
         expected: list[int],
-    ):
+    ) -> None:
+        """
+        Строка и подстрока имеют одинаковую длину
+
+        :param string: строка
+        :param substring: подстрока
+        :param searcher: алгоритм поиска
+        :param expected: список индексов строки, в которых начинаются подстроки
+        :return: None
+        """
         check_search_indexes(string, substring, searcher, expected)
 
     @pytest.mark.parametrize(
@@ -76,7 +64,15 @@ class TestsCommonCases:
         string: str,
         substring: str,
         searcher: AbstractSubstringSearcher,
-    ):
+    ) -> None:
+        """
+        Одно вхождение подстроки в строке
+
+        :param string: строка
+        :param substring: подстрока
+        :param searcher: алгоритм поиска
+        :return: None
+        """
         check_search_indexes(string, substring, searcher, [2])
 
     @pytest.mark.parametrize(
@@ -119,7 +115,16 @@ class TestsCommonCases:
         substring: str,
         searcher: AbstractSubstringSearcher,
         expected: list[int],
-    ):
+    ) -> None:
+        """
+        Несколько вхождений подстроки в строке
+
+        :param string: строка
+        :param substring: подстрока
+        :param searcher: алгоритм поиска
+        :param expected: список индексов строки, в которых начинаются подстроки
+        :return: None
+        """
         check_search_indexes(string, substring, searcher, expected)
 
     @pytest.mark.parametrize(
@@ -138,5 +143,13 @@ class TestsCommonCases:
         string: str,
         substring: str,
         searcher: AbstractSubstringSearcher,
-    ):
+    ) -> None:
+        """
+        Вхождения подстроки в строке пересекаются
+
+        :param string: строка
+        :param substring: подстрока
+        :param searcher: алгоритм поиска
+        :return: None
+        """
         check_search_indexes(string, substring, searcher, [0, 2])
