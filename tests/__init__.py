@@ -1,14 +1,13 @@
-from app.model.searchers.abstract_substring_searcher import AbstractSubstringSearcher
+from app.model.searchers.abstract_substring_searcher import \
+    AbstractSubstringSearcher
 from app.model.searchers.aho_korasik_searcher import AhoKorasikSearcher
 from app.model.searchers.boyer_moore_searcher import BoyerMooreSearcher
 from app.model.searchers.brute_force_searcher import BruteForceSearcher
 from app.model.searchers.kmp_searcher import KMPSearcher
-from app.model.searchers.rabin_karp_searcher.rabin_karp_polynomial_hash import (
-    RabinKarpWithPolynomialHashSearcher,
-)
-from app.model.searchers.rabin_karp_searcher.rabin_karp_square_hash import (
-    RabinKarpWithSquareHashSearcher,
-)
+from app.model.searchers.rabin_karp_searcher.rabin_karp_polynomial_hash import \
+    RabinKarpWithPolynomialHashSearcher
+from app.model.searchers.rabin_karp_searcher.rabin_karp_square_hash import \
+    RabinKarpWithSquareHashSearcher
 
 brute_force_searcher = BruteForceSearcher()
 rabin_karp_with_polynomial_hash_searcher = RabinKarpWithPolynomialHashSearcher()

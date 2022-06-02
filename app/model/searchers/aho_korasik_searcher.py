@@ -1,6 +1,7 @@
 from typing import Optional
 
-from app.model.searchers.abstract_substring_searcher import AbstractSubstringSearcher
+from app.model.searchers.abstract_substring_searcher import \
+    AbstractSubstringSearcher
 
 
 class AhoKorasikSearcher(AbstractSubstringSearcher):
@@ -28,7 +29,8 @@ class Vertex:
     def __init__(self, parent: Optional, parent_char: Optional[str]):
         """
         :param parent: родитель вершины (так же Vertex)
-        :param parent_char: символ, по которому осуществляется переход из родительской вершины в данную
+        :param parent_char: символ, по которому осуществляется переход
+        из родительской вершины в данную
         """
         self.parent: Optional = parent
         self.parent_char: Optional[str] = parent_char

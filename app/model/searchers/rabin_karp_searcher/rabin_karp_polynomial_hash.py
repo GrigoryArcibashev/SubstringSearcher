@@ -1,4 +1,5 @@
-from app.model.searchers.abstract_substring_searcher import AbstractSubstringSearcher
+from app.model.searchers.abstract_substring_searcher import \
+    AbstractSubstringSearcher
 
 
 class RabinKarpWithPolynomialHashSearcher(AbstractSubstringSearcher):
@@ -21,8 +22,9 @@ class RabinKarpWithPolynomialHashSearcher(AbstractSubstringSearcher):
         RM = self._calculate_RM(M)
         for i in range(M, N):
             str_hash = (
-                str_hash + self._Q - RM * ord(string[i - M]) % self._Q
-            ) % self._Q
+                               str_hash + self._Q - RM * ord(
+                               string[i - M]) % self._Q
+                       ) % self._Q
             str_hash = (str_hash * self._R + ord(string[i])) % self._Q
             if str_hash == substr_hash:
                 if self._compare(string, substring, i - M + 1):
@@ -34,7 +36,8 @@ class RabinKarpWithPolynomialHashSearcher(AbstractSubstringSearcher):
         Возвращает хэш для строки
 
         :param string: строка, для которой вычисляется хэш
-        :param length: количество символов строки (начиная с 0), которые используются для хэширования
+        :param length: количество символов строки (начиная с 0),
+        которые используются для хэширования
         :return: хэш
         """
         h = 0
@@ -52,9 +55,11 @@ class RabinKarpWithPolynomialHashSearcher(AbstractSubstringSearcher):
     @staticmethod
     def _compare(string: str, substring: str, start_index: int) -> bool:
         """
-        Сравнивает строку substring со строкой string, начиная с индекса start_index
+        Сравнивает строку substring со строкой string,
+        начиная с индекса start_index
 
-        :param start_index: индекс для строки string, с которого начинается сравнение
+        :param start_index: индекс для строки string,
+        с которого начинается сравнение
         :return: строки совпали -> True, иначе -> False
         """
         for i in range(len(substring)):

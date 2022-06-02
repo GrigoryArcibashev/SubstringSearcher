@@ -1,6 +1,7 @@
 import math
 
-from app.model.searchers.abstract_substring_searcher import AbstractSubstringSearcher
+from app.model.searchers.abstract_substring_searcher import \
+    AbstractSubstringSearcher
 
 
 class RabinKarpWithSquareHashSearcher(AbstractSubstringSearcher):
@@ -23,7 +24,12 @@ class RabinKarpWithSquareHashSearcher(AbstractSubstringSearcher):
                 if self._compare(string, substring, i):
                     indexes.append(i)
             if i < count_of_comparers - 1:
-                str_hash = self._get_updated_hash(str_hash, string, i, substr_len)
+                str_hash = self._get_updated_hash(
+                        str_hash,
+                        string,
+                        i,
+                        substr_len
+                        )
         return indexes
 
     def _hash(self, string: str, length: int) -> int:
@@ -31,7 +37,8 @@ class RabinKarpWithSquareHashSearcher(AbstractSubstringSearcher):
         Возвращает хэш для строки
 
         :param string: строка, для которой вычисляется хэш
-        :param length: количество символов строки (начиная с 0), которые используются для хэширования
+        :param length: количество символов строки (начиная с 0),
+        которые используются для хэширования
         :return: хэш
         """
         h = 0
@@ -40,28 +47,44 @@ class RabinKarpWithSquareHashSearcher(AbstractSubstringSearcher):
         return h
 
     def _get_updated_hash(
-        self, h: int, string: str, index_of_first_char: int, length: int
-    ):
+            self,
+            current_hash: int,
+            string: str,
+            index_of_first_char: int,
+            length: int
+            ):
         """
-        Возвращает хэш для строки, сдвинутой относительно предыдущей на один символ
+        Возвращает хэш для строки,
+        сдвинутой относительно предыдущей на один символ
 
-        :param h: текущий хэш
+        :param current_hash: текущий хэш
         :param string: строка, для которой вычисляется хэш
-        :param index_of_first_char: индекс первого символа, который использовался для подсчета хэша
-        :param length: количество символов строки (начиная с 0), которые используются для хэширования
+        :param index_of_first_char: индекс первого символа,
+        который использовался для подсчета хэша
+        :param length: количество символов строки (начиная с 0),
+        которые используются для хэширования
         :return: обновленный хэш
         """
-        h = (h + math.pow(ord(string[index_of_first_char + length]), 2)) % self._Q
+        current_hash = (current_hash +
+                        math.pow(
+                                ord(string[index_of_first_char + length]), 2
+                                )
+                        ) % self._Q
         return (
-            h + self._Q - math.pow(ord(string[index_of_first_char]), 2) % self._Q
-        ) % self._Q
+                       current_hash + self._Q -
+                       math.pow(
+                               ord(string[index_of_first_char]), 2
+                               ) % self._Q
+               ) % self._Q
 
     @staticmethod
     def _compare(string: str, substring: str, start_index: int) -> bool:
         """
-        Сравнивает строку substring со строкой string, начиная с индекса start_index
+        Сравнивает строку substring со строкой string,
+        начиная с индекса start_index
 
-        :param start_index: индекс для строки string, с которого начинается сравнение
+        :param start_index: индекс для строки string,
+        с которого начинается сравнение
         :return: строки совпали -> True, иначе -> False
         """
         for shift in range(len(substring)):

@@ -1,4 +1,5 @@
-from app.model.searchers.abstract_substring_searcher import AbstractSubstringSearcher
+from app.model.searchers.abstract_substring_searcher import \
+    AbstractSubstringSearcher
 
 
 class KMPSearcher(AbstractSubstringSearcher):

@@ -3,6 +3,8 @@ from typing import Optional
 
 
 class Stopwatch:
+    """Класс секундомера"""
+
     def __init__(self):
         self._start: Optional[float] = None
         self._time: Optional[float] = None
@@ -22,6 +24,7 @@ class Stopwatch:
         self._start = None
 
     def get_time_in_seconds(self) -> float:
+        """Возвращает количество замеренных секунд"""
         if self._time is not None:
             return self._time
         if self._start is None:

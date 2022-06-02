@@ -25,8 +25,8 @@ class HighLighter(QSyntaxHighlighter):
     def highlightBlock(self, text) -> None:
         block_len = len(text)
         while (
-            len(self._indexes) > 0
-            or self._state == BlockState.PREV_BLOCK_IS_NOT_PROCESSED
+                len(self._indexes) > 0
+                or self._state == BlockState.PREV_BLOCK_IS_NOT_PROCESSED
         ):
             if self._state == BlockState.PREV_BLOCK_IS_PROCESSED:
                 self._current_index = self._indexes.popleft()
@@ -44,12 +44,14 @@ class HighLighter(QSyntaxHighlighter):
                 self._state = BlockState.PREV_BLOCK_IS_NOT_PROCESSED
                 return
             self.setFormat(
-                start, count - self._count_of_highlighted_symbols, self._format
-            )
+                    start, count - self._count_of_highlighted_symbols,
+                    self._format
+                    )
             self._count_of_highlighted_symbols = 0
             self._state = BlockState.PREV_BLOCK_IS_PROCESSED
 
-    def highlight_found_occurrences(self, indexes: list[tuple[int, int]]) -> None:
+    def highlight_found_occurrences(
+            self, indexes: list[tuple[int, int]]) -> None:
         """
         Подсвечивает найденные вхождения строки в тексте
 
