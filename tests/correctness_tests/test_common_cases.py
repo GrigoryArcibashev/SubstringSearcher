@@ -2,11 +2,10 @@ import pytest
 
 from app.model.searchers.abstract_substring_searcher import \
     AbstractSubstringSearcher
-from tests import (
-    aho_korasik_searcher, boyer_moore_searcher,
-    brute_force_searcher, check_search_indexes, kmp_searcher,
-    rabin_karp_with_polynomial_hash_searcher,
-    rabin_karp_with_square_hash_searcher)
+from tests import (aho_korasik_searcher, boyer_moore_searcher,
+                   brute_force_searcher, check_search_indexes, kmp_searcher,
+                   rabin_karp_with_polynomial_hash_searcher,
+                   rabin_karp_with_square_hash_searcher)
 
 
 class TestsCommonCases:

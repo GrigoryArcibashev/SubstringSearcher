@@ -190,6 +190,13 @@ class MainWindow(QMainWindow):
         self._input_dialog.setFixedSize(QSize(350, 100))
         self._input_dialog.setFont(self._standard_font)
 
+    def _notify_about_open_text_resource_error(self):
+        QMessageBox.about(
+                self,
+                "Ошибка",
+                "Не удалось скопировать текст"
+                )
+
     @pyqtSlot()
     def _action_open_file(self) -> None:
         """
@@ -219,13 +226,6 @@ class MainWindow(QMainWindow):
             self._text_viewer.setText("\n\n".join(chunks_of_text).strip())
         except Exception:
             self._notify_about_open_text_resource_error()
-
-    def _notify_about_open_text_resource_error(self):
-        QMessageBox.about(
-                self,
-                "Ошибка",
-                "Не удалось скопировать текст"
-                )
 
     def _action_push_find_button(self) -> None:
         """

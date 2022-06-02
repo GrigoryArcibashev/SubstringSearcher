@@ -26,6 +26,9 @@ def check_search_indexes(
     """
     Проверяет результат поиска подстроки в строки searcher-ом с expected
 
+    :param string: строка
+    :param substring: подстрока
+    :param searcher: алгоритм поиска
     :param expected: список ожидаемых индексов
     :return: None, используется assert
     """
