@@ -40,6 +40,14 @@ class MainWindow(QMainWindow):
         self._init_high_lighter()
         self._init_input_dialog()
 
+    @property
+    def _current_searcher(self) -> AbstractSubstringSearcher:
+        searcher_name = self._combo_of_searchers.itemText(
+                self._combo_of_searchers.currentIndex()
+                )
+        searcher = self._searchers_by_name[searcher_name]
+        return searcher
+
     def _init_high_lighter(self) -> None:
         """Инициализирует подсветчика текста"""
         self._high_lighter = HighLighter(self._text_viewer.document())
@@ -191,8 +199,8 @@ class MainWindow(QMainWindow):
         file_name = QFileDialog.getOpenFileName(self)[0]
         try:
             self._text_viewer.setText(read_file(file_name))
-        except FileNotFoundError:
-            pass
+        except:
+            self._notify_about_open_text_resource_error()
 
     @pyqtSlot()
     def _action_open_url(self) -> None:
@@ -210,11 +218,14 @@ class MainWindow(QMainWindow):
                     lambda text: text, map(lambda tag: tag.text, tags))
             self._text_viewer.setText("\n\n".join(chunks_of_text).strip())
         except Exception:
-            QMessageBox.about(
-                    self,
-                    "Ошибка",
-                    "Не удалось отобразить текст с сайта"
-                    )
+            self._notify_about_open_text_resource_error()
+
+    def _notify_about_open_text_resource_error(self):
+        QMessageBox.about(
+                self,
+                "Ошибка",
+                "Не удалось скопировать текст"
+                )
 
     def _action_push_find_button(self) -> None:
         """
@@ -225,20 +236,10 @@ class MainWindow(QMainWindow):
         if len(string) == 0:
             return
         substring = self._substring_input.text()
-        searcher_name = self._combo_of_searchers.itemText(
-                self._combo_of_searchers.currentIndex()
-                )
-        indexes = list(
-                map(
-                        lambda index: (index, len(substring)),
-                        self._run_searcher(
-                                self._searchers_by_name[searcher_name],
-                                string,
-                                substring
-                                ),
-                        )
-                )
-        self._high_lighter.highlight_found_occurrences(indexes)
+        search_result = self._run_searcher(
+                self._current_searcher, string, substring)
+        self._high_lighter.highlight_found_occurrences(
+                search_result, len(substring))
 
     def _run_searcher(
             self,
@@ -262,7 +263,9 @@ class MainWindow(QMainWindow):
         return indexes
 
     def _display_performance_information(
-            self, stopwatch: Stopwatch, memory_profiler: MemoryProfiler
+            self,
+            stopwatch: Stopwatch,
+            memory_profiler: MemoryProfiler
             ) -> None:
         """Отображает информацию о затратах времени и памяти"""
         time = round(stopwatch.get_time_in_seconds(), 3)

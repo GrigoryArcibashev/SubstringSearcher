@@ -22,6 +22,17 @@ class HighLighter(QSyntaxHighlighter):
         self._format = QTextCharFormat()
         self._format.setBackground(Qt.green)
 
+    @staticmethod
+    def _get_indexes_of_gaps_for_highlighting(
+            search_result: list[int],
+            substring_length: int) -> list[tuple[int, int]]:
+        """
+        Возвращает индексы интервалов для подсветки найденных шаблонов в тексте
+        """
+        return list(
+                map(lambda index: (index, substring_length), search_result)
+                )
+
     def highlightBlock(self, text) -> None:
         block_len = len(text)
         while (
@@ -51,14 +62,19 @@ class HighLighter(QSyntaxHighlighter):
             self._state = BlockState.PREV_BLOCK_IS_PROCESSED
 
     def highlight_found_occurrences(
-            self, indexes: list[tuple[int, int]]) -> None:
+            self,
+            search_result: list[int],
+            substring_length: int) -> None:
         """
         Подсвечивает найденные вхождения строки в тексте
 
-        :param indexes: индексы вхождений [(start_index, count), ...]
+        :param search_result: индексы вхождений [start_index, ...]
+        :param substring_length: длина шаблона
         """
+
         self._reset()
-        for ind in indexes:
+        for ind in self._get_indexes_of_gaps_for_highlighting(
+                search_result, substring_length):
             self._indexes.append(ind)
         self.rehighlight()
 
