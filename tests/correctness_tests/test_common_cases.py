@@ -138,11 +138,11 @@ class TestsCommonCases:
                 ],
             )
     def test__overlapping_coincidences(
-            self,
-            string: str,
-            substring: str,
-            searcher: AbstractSubstringSearcher,
-            ) -> None:
+        self,
+        string: str,
+        substring: str,
+        searcher: AbstractSubstringSearcher,
+        ) -> None:
         """
         Вхождения подстроки в строке пересекаются
 

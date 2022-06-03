@@ -1,4 +1,3 @@
-from bs4 import BeautifulSoup
 from PyQt5.QtCore import QRect, QSize, pyqtSlot
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import (
@@ -12,14 +11,14 @@ from app.model.searchers.aho_korasik_searcher import AhoKorasikSearcher
 from app.model.searchers.boyer_moore_searcher import BoyerMooreSearcher
 from app.model.searchers.brute_force_searcher import BruteForceSearcher
 from app.model.searchers.kmp_searcher import KMPSearcher
-from app.model.searchers.rabin_karp_searcher.rabin_karp_polynomial_hash import \
-    RabinKarpWithPolynomialHashSearcher
+from app.model.searchers.rabin_karp_searcher \
+    .rabin_karp_polynomial_hash import RabinKarpWithPolynomialHashSearcher
 from app.model.searchers.rabin_karp_searcher.rabin_karp_square_hash import \
     RabinKarpWithSquareHashSearcher
 from app.model.utils.file_reader import read_file
 from app.model.utils.memory_profiler import MemoryProfiler
+from app.model.utils.only_russian import get_russian_text_by_url
 from app.model.utils.stopwatch import Stopwatch
-from app.model.utils.url_loader import load_content_as_string
 from app.ui.high_lighter import HighLighter
 
 
@@ -42,6 +41,7 @@ class MainWindow(QMainWindow):
 
     @property
     def _current_searcher(self) -> AbstractSubstringSearcher:
+        """Вабранный сейчас алгоритм поиска"""
         searcher_name = self._combo_of_searchers.itemText(
                 self._combo_of_searchers.currentIndex()
                 )
@@ -206,26 +206,18 @@ class MainWindow(QMainWindow):
         file_name = QFileDialog.getOpenFileName(self)[0]
         try:
             self._text_viewer.setText(read_file(file_name))
-        except:
-            self._notify_about_open_text_resource_error()
+        except FileNotFoundError:
+            pass
 
     @pyqtSlot()
     def _action_open_url(self) -> None:
-        """
-        Помещает содержимое тэгов <p> и <span> из html указанного url в
-        виджет для просмотра текста
-        """
-        if not self._input_dialog.exec_():
-            return
-        try:
-            raw_html = load_content_as_string(self._input_dialog.textValue())
-            tags = BeautifulSoup(raw_html, "html.parser").findAll(
-                    ["p", "span"])
-            chunks_of_text = filter(
-                    lambda text: text, map(lambda tag: tag.text, tags))
-            self._text_viewer.setText("\n\n".join(chunks_of_text).strip())
-        except Exception:
-            self._notify_about_open_text_resource_error()
+        """Помещает текст из указанного url в виджет для просмотра текста"""
+        if self._input_dialog.exec_():
+            text = get_russian_text_by_url(self._input_dialog.textValue())
+            if text is None:
+                self._notify_about_open_text_resource_error()
+            else:
+                self._text_viewer.setText(text)
 
     def _action_push_find_button(self) -> None:
         """

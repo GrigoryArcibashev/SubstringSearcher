@@ -24,12 +24,14 @@ class Tests:
         Грубая сила, Ахо-Корасик и квадратичные хеши по времени работы
         отличаются друг от друга не более, чем на 0.3 секунды
         """
-        bf_time, \
-        rk_pol_time, \
-        rk_sq_time, \
-        aho_time, \
-        bm_time, \
-        kmp_time = self._get_work_time_of_searchers(
+        (
+            bf_time,
+            rk_pol_time,
+            rk_sq_time,
+            aho_time,
+            bm_time,
+            kmp_time
+            ) = self._get_work_time_of_searchers(
                 war_and_peace,
                 "князь Андрей Болконский",
                 5,

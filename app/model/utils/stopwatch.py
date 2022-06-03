@@ -10,12 +10,14 @@ class Stopwatch:
         self._time: Optional[float] = None
 
     def start(self) -> None:
+        """Запускает таймер"""
         if self._start is not None:
             raise Exception("Stopwatch has already been started")
         self._start = time.time()
         self._time = None
 
     def stop(self) -> None:
+        """Останавливает таймер"""
         if self._start is None:
             raise Exception("Stopwatch has not started yet")
         if self._time is not None:
