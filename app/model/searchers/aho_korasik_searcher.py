@@ -16,11 +16,13 @@ class AhoKorasikSearcher(AbstractSubstringSearcher):
         bohr = Bohr()
         bohr.add(substring)
         vertex = bohr.root
-        for i in range(str_len):
-            vertex = bohr.go(vertex, string[i])
-            if vertex.is_terminal:
-                indexes.append(i - substr_len + 1)
-        return indexes
+        try:
+            for i in range(str_len):
+                vertex = bohr.go(vertex, string[i])
+                if vertex.is_terminal:
+                    indexes.append(i - substr_len + 1)
+        finally:
+            return indexes
 
 
 class Vertex:
