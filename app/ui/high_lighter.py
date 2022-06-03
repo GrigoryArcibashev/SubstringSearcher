@@ -30,8 +30,8 @@ class HighLighter(QSyntaxHighlighter):
         Возвращает индексы интервалов для подсветки найденных шаблонов в тексте
         """
         return list(
-                map(lambda index: (index, substring_length), search_result)
-                )
+            map(lambda index: (index, substring_length), search_result)
+        )
 
     def highlightBlock(self, text) -> None:
         block_len = len(text)
@@ -55,9 +55,9 @@ class HighLighter(QSyntaxHighlighter):
                 self._state = BlockState.PREV_BLOCK_IS_NOT_PROCESSED
                 return
             self.setFormat(
-                    start, count - self._count_of_highlighted_symbols,
-                    self._format
-                    )
+                start, count - self._count_of_highlighted_symbols,
+                self._format
+            )
             self._count_of_highlighted_symbols = 0
             self._state = BlockState.PREV_BLOCK_IS_PROCESSED
 

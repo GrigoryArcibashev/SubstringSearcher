@@ -22,9 +22,9 @@ class RabinKarpWithPolynomialHashSearcher(AbstractSubstringSearcher):
         RM = self._calculate_RM(M)
         for i in range(M, N):
             str_hash = (
-                               str_hash + self._Q - RM * ord(
-                               string[i - M]) % self._Q
-                       ) % self._Q
+                str_hash + self._Q - RM * ord(
+                    string[i - M]) % self._Q
+            ) % self._Q
             str_hash = (str_hash * self._R + ord(string[i])) % self._Q
             if str_hash == substr_hash:
                 if self._compare(string, substring, i - M + 1):

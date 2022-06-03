@@ -24,5 +24,5 @@ class MemoryProfiler:
         задействованное во время работы профилировщика
         """
         if self._peak is None:
-            raise Exception("Profiler has not started yet")
+            raise Exception('Profiler has not started yet')
         return self._peak

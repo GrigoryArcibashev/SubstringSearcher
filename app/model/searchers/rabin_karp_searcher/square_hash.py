@@ -25,11 +25,11 @@ class RabinKarpWithSquareHashSearcher(AbstractSubstringSearcher):
                     indexes.append(i)
             if i < count_of_comparers - 1:
                 str_hash = self._get_updated_hash(
-                        str_hash,
-                        string,
-                        i,
-                        substr_len
-                        )
+                    str_hash,
+                    string,
+                    i,
+                    substr_len
+                )
         return indexes
 
     def _hash(self, string: str, length: int) -> int:
@@ -47,12 +47,12 @@ class RabinKarpWithSquareHashSearcher(AbstractSubstringSearcher):
         return h
 
     def _get_updated_hash(
-            self,
-            current_hash: int,
-            string: str,
-            index_of_first_char: int,
-            length: int
-            ):
+        self,
+        current_hash: int,
+        string: str,
+        index_of_first_char: int,
+        length: int
+    ) -> float:
         """
         Возвращает хэш для строки,
         сдвинутой относительно предыдущей на один символ
@@ -67,15 +67,17 @@ class RabinKarpWithSquareHashSearcher(AbstractSubstringSearcher):
         """
         current_hash = (current_hash +
                         math.pow(
-                                ord(string[index_of_first_char + length]), 2
-                                )
+                            ord(string[index_of_first_char + length]),
+                            2
+                        )
                         ) % self._Q
         return (
-                       current_hash + self._Q -
-                       math.pow(
-                               ord(string[index_of_first_char]), 2
-                               ) % self._Q
-               ) % self._Q
+            current_hash + self._Q -
+            math.pow(
+                ord(string[index_of_first_char]),
+                2
+            ) % self._Q
+        ) % self._Q
 
     @staticmethod
     def _compare(string: str, substring: str, start_index: int) -> bool:

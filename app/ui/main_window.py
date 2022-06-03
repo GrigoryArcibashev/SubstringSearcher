@@ -12,8 +12,8 @@ from app.model.searchers.boyer_moore_searcher import BoyerMooreSearcher
 from app.model.searchers.brute_force_searcher import BruteForceSearcher
 from app.model.searchers.kmp_searcher import KMPSearcher
 from app.model.searchers.rabin_karp_searcher \
-    .rabin_karp_polynomial_hash import RabinKarpWithPolynomialHashSearcher
-from app.model.searchers.rabin_karp_searcher.rabin_karp_square_hash import \
+    .polynomial_hash import RabinKarpWithPolynomialHashSearcher
+from app.model.searchers.rabin_karp_searcher.square_hash import \
     RabinKarpWithSquareHashSearcher
 from app.model.utils.file_reader import read_file
 from app.model.utils.memory_profiler import MemoryProfiler
@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self._standard_font = QFont("Arial", 12)
+        self._standard_font = QFont('Arial', 12)
         self._init_searchers_by_name()
         self._init_window()
         self._init_menu_bar()
@@ -43,8 +43,8 @@ class MainWindow(QMainWindow):
     def _current_searcher(self) -> AbstractSubstringSearcher:
         """Вабранный сейчас алгоритм поиска"""
         searcher_name = self._combo_of_searchers.itemText(
-                self._combo_of_searchers.currentIndex()
-                )
+            self._combo_of_searchers.currentIndex()
+        )
         searcher = self._searchers_by_name[searcher_name]
         return searcher
 
@@ -55,21 +55,21 @@ class MainWindow(QMainWindow):
     def _init_searchers_by_name(self) -> None:
         """Инициализирует словарь поисковиков по имени"""
         searchers = dict()
-        searchers["Brute Force"] = BruteForceSearcher()
-        searchers["Knut Morris Pratt"] = KMPSearcher()
+        searchers['Brute Force'] = BruteForceSearcher()
+        searchers['Knut Morris Pratt'] = KMPSearcher()
         searchers[
-            "Rabin Karp (Polynomial Hash)"
+            'Rabin Karp (Polynomial Hash)'
         ] = RabinKarpWithPolynomialHashSearcher()
         searchers[
-            "Rabin Karp (Square Hash)"] = RabinKarpWithSquareHashSearcher()
-        searchers["Boyer Moore"] = BoyerMooreSearcher()
-        searchers["Aho Korasik"] = AhoKorasikSearcher()
+            'Rabin Karp (Square Hash)'] = RabinKarpWithSquareHashSearcher()
+        searchers['Boyer Moore'] = BoyerMooreSearcher()
+        searchers['Aho Korasik'] = AhoKorasikSearcher()
         self._searchers_by_name: dict[
             str, AbstractSubstringSearcher] = searchers
 
     def _init_window(self) -> None:
         """Инициализирует главное окно"""
-        self.setWindowTitle("Substring searcher")
+        self.setWindowTitle('Substring searcher')
         self._size = QSize(800, 600)
         self.setGeometry(200, 200, self._size.width(), self._size.height())
         self.setFixedSize(self._size)
@@ -80,7 +80,7 @@ class MainWindow(QMainWindow):
         text_viewer.setFont(self._standard_font)
         text_viewer.setReadOnly(True)
         size = QRect(
-                10, 30, self._size.width() - 20, self._size.height() // 1.5)
+            10, 30, self._size.width() - 20, self._size.height() // 1.5)
         text_viewer.setGeometry(size)
         self._text_viewer = text_viewer
 
@@ -89,10 +89,10 @@ class MainWindow(QMainWindow):
         menu_bar = QMenuBar(self)
         menu_bar.setFont(self._standard_font)
         self.setMenuBar(menu_bar)
-        file_menu = QMenu("&Open", self)
+        file_menu = QMenu('&Open', self)
         file_menu.setFont(self._standard_font)
-        file_menu.addAction("&File", self._action_open_file)
-        file_menu.addAction("&URL", self._action_open_url)
+        file_menu.addAction('&File', self._action_open_file)
+        file_menu.addAction('&URL', self._action_open_url)
         menu_bar.addMenu(file_menu)
 
     def _init_combo_of_searchers(self) -> None:
@@ -127,11 +127,11 @@ class MainWindow(QMainWindow):
         label = QLabel(self)
         label.setFont(self._standard_font)
         size = QRect(
-                self._size.width() // 2,
-                self._size.height() // 1.5 + 50,
-                self._size.width() // 2,
-                30,
-                )
+            self._size.width() // 2,
+            self._size.height() // 1.5 + 50,
+            self._size.width() // 2,
+            30,
+        )
         label.setGeometry(size)
         self._time_label = label
 
@@ -143,18 +143,18 @@ class MainWindow(QMainWindow):
         label = QLabel(self)
         label.setFont(self._standard_font)
         size = QRect(
-                self._size.width() // 2,
-                self._size.height() // 1.5 + 90,
-                self._size.width() // 2,
-                30,
-                )
+            self._size.width() // 2,
+            self._size.height() // 1.5 + 90,
+            self._size.width() // 2,
+            30,
+        )
         label.setGeometry(size)
         self._memory_label = label
 
     def _init_selected_searcher_label(self) -> None:
         """Инициализирует пояснительную метку для выбора алгоритма поиска"""
         label = QLabel(self)
-        text = "Search algorithm"
+        text = 'Search algorithm'
         label.setFont(self._standard_font)
         label.setText(text)
         size = QRect(10, self._size.height() // 1.5 + 50, 130, 30)
@@ -163,7 +163,7 @@ class MainWindow(QMainWindow):
     def _init_substring_label(self) -> None:
         """Инициализирует пояснительную метку для ввода искомой строки"""
         label = QLabel(self)
-        text = "Substring"
+        text = 'Substring'
         label.setFont(self._standard_font)
         label.setText(text)
         size = QRect(10, self._size.height() // 1.5 + 90, 130, 30)
@@ -173,11 +173,11 @@ class MainWindow(QMainWindow):
         """Инициализирует кнопку 'Find'"""
         btn = QPushButton(self)
         btn.setFont(self._standard_font)
-        btn.setText("Find")
+        btn.setText('Find')
         size = QRect(
-                self._size.width() // 2 - 40, self._size.height() // 1.5 + 140,
-                80, 40
-                )
+            self._size.width() // 2 - 40, self._size.height() // 1.5 + 140,
+            80, 40
+        )
         btn.setGeometry(size)
         btn.clicked.connect(self._action_push_find_button)
 
@@ -185,17 +185,17 @@ class MainWindow(QMainWindow):
         """Инициализирует всплывающее окно для ввода url"""
         self._input_dialog = QInputDialog(None)
         self._input_dialog.setInputMode(QInputDialog.TextInput)
-        self._input_dialog.setWindowTitle("Input URL")
-        self._input_dialog.setLabelText("Enter URL:")
+        self._input_dialog.setWindowTitle('Input URL')
+        self._input_dialog.setLabelText('Enter URL:')
         self._input_dialog.setFixedSize(QSize(350, 100))
         self._input_dialog.setFont(self._standard_font)
 
     def _notify_about_open_text_resource_error(self):
         QMessageBox.about(
-                self,
-                "Ошибка",
-                "Не удалось скопировать текст"
-                )
+            self,
+            'Ошибка',
+            'Не удалось скопировать текст'
+        )
 
     @pyqtSlot()
     def _action_open_file(self) -> None:
@@ -229,9 +229,9 @@ class MainWindow(QMainWindow):
             return
         substring = self._substring_input.text()
         search_result = self._run_searcher(
-                self._current_searcher, string, substring)
+            self._current_searcher, string, substring)
         self._high_lighter.highlight_found_occurrences(
-                search_result, len(substring))
+            search_result, len(substring))
 
     def _run_searcher(
             self,
@@ -255,14 +255,14 @@ class MainWindow(QMainWindow):
         return indexes
 
     def _display_performance_information(
-            self,
-            stopwatch: Stopwatch,
-            memory_profiler: MemoryProfiler
-            ) -> None:
+        self,
+        stopwatch: Stopwatch,
+        memory_profiler: MemoryProfiler
+    ) -> None:
         """Отображает информацию о затратах времени и памяти"""
         time = round(stopwatch.get_time_in_seconds(), 3)
         memory = round(
-                memory_profiler.get_peak_expended_memory_in_bytes() / 1024, 3)
-        self._time_label.setText(f"Время работы: {time} секунд")
+            memory_profiler.get_peak_expended_memory_in_bytes() / 1024, 3)
+        self._time_label.setText(f'Время работы: {time} секунд')
         self._memory_label.setText(
-                f"Максимальное потребление памяти: {memory} KB")
+            f'Максимальное потребление памяти: {memory} KB')

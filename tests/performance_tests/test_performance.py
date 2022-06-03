@@ -4,7 +4,7 @@ from app.model.utils.stopwatch import Stopwatch
 from tests import (
     aho_korasik_searcher, boyer_moore_searcher,
     brute_force_searcher, kmp_searcher,
-    rabin_karp_with_polynomial_hash_searcher,
+    rabin_karp_with_pol_hash_searcher,
     rabin_karp_with_square_hash_searcher)
 from tests.performance_tests import long_string_of_one_char, war_and_peace
 
@@ -31,22 +31,22 @@ class Tests:
             aho_time,
             bm_time,
             kmp_time
-            ) = self._get_work_time_of_searchers(
-                war_and_peace,
-                "князь Андрей Болконский",
-                5,
-                [
-                    brute_force_searcher,
-                    rabin_karp_with_square_hash_searcher,
-                    rabin_karp_with_polynomial_hash_searcher,
-                    aho_korasik_searcher,
-                    boyer_moore_searcher,
-                    kmp_searcher
-                    ]
-                )
+        ) = self._get_work_time_of_searchers(
+            war_and_peace,
+            'князь Андрей Болконский',
+            5,
+            [
+                brute_force_searcher,
+                rabin_karp_with_square_hash_searcher,
+                rabin_karp_with_pol_hash_searcher,
+                aho_korasik_searcher,
+                boyer_moore_searcher,
+                kmp_searcher
+            ]
+        )
         all_times = (
             aho_time, bf_time, bm_time, kmp_time, rk_pol_time, rk_sq_time
-            )
+        )
         for time in all_times:
             assert bm_time <= time <= rk_pol_time
         for time in (bf_time, rk_sq_time, aho_time):
@@ -57,8 +57,8 @@ class Tests:
 
     # TESTS FOR A VERY LONG TIME
     def test__when_brute_force_has_same_performance_as_rabin_karp(
-            self
-            ) -> None:
+        self
+    ) -> None:
         """
         Строка - 16000 подряд идущих букв 'a',
         подстрока - 3000 подряд идущих букв 'a'
@@ -68,13 +68,13 @@ class Tests:
         Грубая сила работает примерно за то же время,
         что и Рабин-Карп (квадр. и полин. хеши)
         """
-        substring = "a" * 3000
+        substring = 'a' * 3000
         bf_time, rk_pol_time, rk_sq_time = self._get_work_time_of_bf_and_rk(
-                long_string_of_one_char,
-                substring,
-                5
-                )
-        print(f"\n\nBF: {bf_time}\nSq: {rk_sq_time}\nPol: {rk_pol_time}")
+            long_string_of_one_char,
+            substring,
+            5
+        )
+        print(f'\n\nBF: {bf_time}\nSq: {rk_sq_time}\nPol: {rk_pol_time}')
         assert abs(rk_pol_time - bf_time) < 2
         assert abs(rk_sq_time - bf_time) < 2
 
@@ -87,13 +87,13 @@ class Tests:
 
         Грубая сила быстрее Рабина-Карпа (квадр. и полин. хеши)
         """
-        substring = "b" + "a" * 2000
+        substring = 'b' + 'a' * 2000
         bf_time, rk_pol_time, rk_sq_time = self._get_work_time_of_bf_and_rk(
-                long_string_of_one_char,
-                substring,
-                5
-                )
-        print(f"\n\nBF: {bf_time}\nSq: {rk_sq_time}\nPol: {rk_pol_time}")
+            long_string_of_one_char,
+            substring,
+            5
+        )
+        print(f'\n\nBF: {bf_time}\nSq: {rk_sq_time}\nPol: {rk_pol_time}')
         assert bf_time < rk_sq_time
         assert bf_time < rk_pol_time
 
@@ -107,13 +107,13 @@ class Tests:
 
         Грубая сила медленнее Рабина-Карпа (квадр. и полин. хеши)
         """
-        substring = "a" * 2000 + "b"
+        substring = 'a' * 2000 + 'b'
         bf_time, rk_pol_time, rk_sq_time = self._get_work_time_of_bf_and_rk(
-                long_string_of_one_char,
-                substring,
-                5
-                )
-        print(f"\n\nBF: {bf_time}\nSq: {rk_sq_time}\nPol: {rk_pol_time}")
+            long_string_of_one_char,
+            substring,
+            5
+        )
+        print(f'\n\nBF: {bf_time}\nSq: {rk_sq_time}\nPol: {rk_pol_time}')
         assert rk_sq_time < bf_time
         assert rk_pol_time < bf_time
 
@@ -122,7 +122,7 @@ class Tests:
             string: str,
             substring: str,
             searcher: AbstractSubstringSearcher
-            ) -> float:
+    ) -> float:
         """Замеряет время работы алгоритма в секундах"""
         stopwatch = Stopwatch()
         stopwatch.start()
@@ -135,7 +135,7 @@ class Tests:
             string,
             substring: str,
             count_of_measurements: int
-            ) -> list[float, float, float]:
+    ) -> list[float, float, float]:
         """
         Возвращает среднее время работы алгоритмов BruteForce,
         RabinKarp (square hash) и RabinKarp (polynomial hash)
@@ -145,15 +145,15 @@ class Tests:
         BruteForce, RabinKarp (square hash), RabinKarp (polynomial hash)
         """
         return self._get_work_time_of_searchers(
-                string,
-                substring,
-                count_of_measurements,
-                [
-                    brute_force_searcher,
-                    rabin_karp_with_square_hash_searcher,
-                    rabin_karp_with_polynomial_hash_searcher,
-                    ]
-                )
+            string,
+            substring,
+            count_of_measurements,
+            [
+                brute_force_searcher,
+                rabin_karp_with_square_hash_searcher,
+                rabin_karp_with_pol_hash_searcher,
+            ]
+        )
 
     def _get_work_time_of_searchers(
             self,
@@ -161,7 +161,7 @@ class Tests:
             substring: str,
             count_of_measurements: int,
             searchers: list[AbstractSubstringSearcher]
-            ) -> list[float]:
+    ) -> list[float]:
         """
         Возвращает среднее время работы указанных алгоритмов
 
@@ -174,8 +174,8 @@ class Tests:
         for _ in range(count_of_measurements):
             for i in range(len(searchers)):
                 results[i] += self._get_work_time_of_searching_in_seconds(
-                        string,
-                        substring,
-                        searchers[i]
-                        )
+                    string,
+                    substring,
+                    searchers[i]
+                )
         return results
