@@ -1,4 +1,4 @@
-from string import punctuation, whitespace
+from string import whitespace
 from typing import Optional
 
 from bs4 import BeautifulSoup
@@ -49,7 +49,7 @@ def is_russian_letter(symbol: str) -> bool:
 
 def is_punctuation(symbol: str) -> bool:
     """Проверяет, является ли символ знаком пунктуации"""
-    return symbol in punctuation
+    return symbol in """\"!\'(),-.:;?"""
 
 
 def is_whitespace(symbol: str) -> bool:
